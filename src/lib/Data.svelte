@@ -60,7 +60,6 @@
           stroke-width="1px"
         />
         <text
-          class="mierda"
           text-anchor="middle"
           style="color:white"
           dy=".91em"
