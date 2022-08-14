@@ -40,14 +40,12 @@
           stroke="white"
           stroke-opacity=".2"
           stroke-width="1px"
+          stroke-dasharray="2 10"
         />
-        <text
-          text-anchor="middle"
-          style="color:white"
-          dy=".91em"
-          y={innerHeight + 1}
-        >
-          {tickValue.getDay()}
+        <text text-anchor="middle" dy=".21em" y={innerHeight}>
+          {new Intl.DateTimeFormat("es-ES", { weekday: "short" }).format(
+            tickValue
+          )}
         </text>
       </g>
     {/each}
@@ -59,12 +57,7 @@
           stroke-opacity=".2"
           stroke-width="1px"
         />
-        <text
-          text-anchor="middle"
-          style="color:white"
-          dy=".91em"
-          y={innerWidth + 1}
-        >
+        <text text-anchor="middle" y={3}>
           {yTickValue}
         </text>
       </g>
@@ -81,6 +74,8 @@
     stroke-linecap: round;
   }
   text {
-    color: rgba(255, 255, 255, 0.87);
+    fill: rgb(172, 172, 172);
+    font-family: Inter;
+    font-size: 7px;
   }
 </style>
