@@ -18,11 +18,12 @@
   // scales
   const xScale = scaleTime()
     .domain(extent(data.daily.map((d) => new Date(d.dt * 1000))))
-    .range([0, innerWidth]); // range in pixel coordinates
+    .range([0, innerWidth]);
 
   const yScale = scaleLinear()
     .domain(extent(data.daily.map((d) => d.temp.day)))
     .range([innerHeight, 0])
+    .nice()
     .interpolate(interpolateRound);
 
   // the path generator
@@ -34,8 +35,17 @@
 
 <svg {width} {height}>
   <g transform={`translate(${margin.left},${margin.bottom})`}>
+    <!-- x axis -->
     <Axis {innerHeight} {margin} scale={xScale} position="bottom" />
-    <Axis {innerHeight} {margin} scale={yScale} position="left" />
+
+    <!-- y axis -->
+    <Axis
+      {innerHeight}
+      tickNumber={3.5}
+      {margin}
+      scale={yScale}
+      position="left"
+    />
 
     {#each yScale.ticks() as yTickValue}
       <g transform={`translate(0,${yScale(yTickValue)})`}>

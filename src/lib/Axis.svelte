@@ -7,6 +7,7 @@
   export let margin;
   export let position;
   export let scale;
+  export let tickNumber = 5;
 
   let transform;
   let g;
@@ -18,18 +19,20 @@
     switch (position) {
       case "bottom":
         axis = axisBottom(scale)
+          .ticks(tickNumber)
           .tickFormat((d) => timeFormat("%a")(d))
           .tickSizeOuter(0);
         transform = `translate(0, ${innerHeight})`;
         break;
       case "left":
-        axis = axisLeft(scale).tickSizeOuter(0);
+        axis = axisLeft(scale).ticks(tickNumber).tickSizeOuter(0);
         transform = `translate(${margin}, 0)`;
     }
 
     select(g).call(axis);
-    select(g).style("font-size", "12px");
-    select(g).style("font-family", "Inter");
+    select(g).style("font-size", "14px");
+    select(g).style("font-family", "IBM Plex Mono");
+    select(g).style("color", "rgb(172, 172, 172)");
   }
 </script>
 
