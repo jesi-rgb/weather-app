@@ -7,6 +7,7 @@
   import { scaleLinear, scaleTime } from "d3-scale";
   import { line, curveBasis } from "d3-shape";
   import { interpolateRound } from "d3-interpolate";
+  import { axisBottom, axisLeft } from "d3-axis";
 
   const width = 500,
     height = 220;
@@ -33,6 +34,7 @@
 
 <svg {width} {height}>
   <g transform={`translate(${margin.left},${margin.bottom})`}>
+    <g transform={`translate(0, ${height})`}> {axisBottom(xScale)} </g>
     {#each xScale.ticks() as tickValue}
       <g transform={`translate(${xScale(tickValue)},0)`}>
         <line
