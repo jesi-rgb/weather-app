@@ -3,6 +3,7 @@
   export let data;
 
   import { draw } from "svelte/transition";
+  import { select, selectAll } from "d3-selection";
   import { extent } from "d3-array";
   import { scaleLinear, scaleTime } from "d3-scale";
   import { line, curveBasis } from "d3-shape";
@@ -30,6 +31,9 @@
     .x((d) => xScale(d.dt * 1000))
     .y((d) => yScale(d.temp.day))
     .curve(curveBasis);
+
+  //   const axisB = axisBottom(xScale);
+  //   console.log(axisB);
 </script>
 
 <svg {width} {height}>
@@ -44,7 +48,7 @@
           stroke-width="1px"
           stroke-dasharray="2 10"
         />
-        <text text-anchor="middle" dy=".21em" y={innerHeight}>
+        <text text-anchor="middle" dy=".31em" y={innerHeight} font-size="15rem">
           {new Intl.DateTimeFormat("es-ES", { weekday: "short" }).format(
             tickValue
           )}
@@ -59,7 +63,7 @@
           stroke-opacity=".2"
           stroke-width="1px"
         />
-        <text text-anchor="middle" y={3}>
+        <text text-anchor="middle" y={3} dx="-10px">
           {yTickValue}
         </text>
       </g>

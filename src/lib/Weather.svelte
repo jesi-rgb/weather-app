@@ -1,5 +1,5 @@
 <script>
-  import Data from "./Data.svelte";
+  import LineChart from "./LineChart.svelte";
   import { data } from "./variables";
 
   async function getCall() {
@@ -17,5 +17,5 @@
 {#await promise}
   <p>loading data...</p>
 {:then data}
-  <Data {data} />
+  <LineChart {data} />
 {/await}
