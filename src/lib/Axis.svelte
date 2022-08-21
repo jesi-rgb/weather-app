@@ -20,7 +20,7 @@
       case "bottom":
         axis = axisBottom(scale)
           .ticks(tickNumber)
-          .tickFormat((d) => timeFormat("%a")(d))
+          .tickFormat((d) => timeFormat("%H")(d))
           .tickSizeOuter(0);
         transform = `translate(0, ${innerHeight})`;
         break;
