@@ -3,7 +3,8 @@
   export let data;
 
   import { draw, fade } from "svelte/transition";
-  import { extent, bisector } from "d3-array";
+  import { select } from "d3-selection";
+  import { extent, bisector, max } from "d3-array";
   import { scaleLinear, scaleTime } from "d3-scale";
   import { line, area, curveBasis } from "d3-shape";
   import { interpolateRound } from "d3-interpolate";
@@ -55,9 +56,37 @@
   const xTicks = xScale.ticks();
   const temps = xTicks.map((xt) => hours[bisect(hours, xt)].temp);
   const tickAndTemps = xTicks.map((tick, i) => [tick, temps[i]]);
+
+  let defs;
+
+  $: {
+    select(defs)
+      .append("linearGradient")
+      .attr("id", "area-gradient")
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "0%")
+      .attr("y2", "100%")
+      .selectAll("stop")
+      .data([
+        { offset: "0%", color: "aquamarine" },
+        // add additional steps as needed for gradient.
+        { offset: "65%", color: "transparent" },
+      ])
+      .enter()
+      .append("stop")
+      .attr("offset", function (d) {
+        return d.offset;
+      })
+      .attr("stop-color", function (d) {
+        return d.color;
+      });
+  }
 </script>
 
 <svg {width} {height}>
+  <defs bind:this={defs} />
   <g transform={`translate(${margin.left},${margin.bottom})`}>
     <!-- x axis -->
     <Axis
@@ -91,12 +120,13 @@
         >{Math.round(tickAndTemp[1]).toString() + "ºC"}</text
       >
     {/each}
-    <path transition:draw={{ duration: 1000 }} d={pathLine(hours)} />
     <path
       transition:fade={{ duration: 600, delay: 800 }}
       class="path-area"
+      id="area"
       d={colorArea(hours)}
     />
+    <path transition:draw={{ duration: 1000 }} d={pathLine(hours)} />
   </g>
 </svg>
 
@@ -108,8 +138,8 @@
     stroke-linecap: round;
   }
   .path-area {
-    fill: aquamarine;
-    fill-opacity: 0.1;
+    fill: url(#area-gradient);
+    /* fill-opacity: 0.1; */
     stroke-width: 0;
   }
 </style>
