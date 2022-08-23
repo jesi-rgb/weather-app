@@ -20,7 +20,7 @@
       case "bottom":
         axis = axisBottom(scale)
           .ticks(tickNumber)
-          .tickFormat((d) => timeFormat("%H")(d))
+          .tickFormat((d) => timeFormat("%H")(d).toString() + "h")
           .tickSizeOuter(0);
         transform = `translate(0, ${innerHeight})`;
         break;
@@ -32,7 +32,9 @@
     select(g).call(axis);
     select(g).style("font-size", "14px");
     select(g).style("font-family", "IBM Plex Mono");
-    select(g).style("color", "rgb(172, 172, 172)");
+    select(g).style("color", "rgb(132, 132, 132)");
+    select(g).select("path").style("opacity", "0");
+    select(g).selectAll("line").style("opacity", "0");
   }
 </script>
 
