@@ -13,7 +13,7 @@
 
   const width = window.innerWidth - 100,
     height = 100;
-  const margin = { top: 30, right: 60, bottom: 10, left: 60 };
+  const margin = { top: 30, right: 0, bottom: 10, left: 30 };
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
 
