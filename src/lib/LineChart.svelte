@@ -70,7 +70,7 @@
       .attr("y2", "100%")
       .selectAll("stop")
       .data([
-        { offset: "0%", color: "aquamarine" },
+        { offset: "0%", color: "#5eead4" },
         // add additional steps as needed for gradient.
         { offset: "65%", color: "transparent" },
       ])
@@ -110,10 +110,8 @@
       <g transform={`translate(${xScale(tickAndTemp[0])}, 0)`} />
       <text
         text-anchor="middle"
-        fill="aquamarine"
-        font-family="IBM Plex Mono"
         font-size="12px"
-        opacity=".5"
+        class="fill-teal-200 font-digits opacity-80"
         dy="-10px"
         x={xScale(tickAndTemp[0])}
         y={yScale(tickAndTemp[1])}
@@ -132,14 +130,13 @@
 
 <style>
   path {
-    stroke: aquamarine;
+    @apply stroke-teal-300;
     stroke-width: 3;
     fill: none;
     stroke-linecap: round;
   }
   .path-area {
     fill: url(#area-gradient);
-    /* fill-opacity: 0.1; */
     stroke-width: 0;
   }
 </style>

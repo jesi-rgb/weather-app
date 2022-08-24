@@ -6,7 +6,7 @@
 
   async function getCall() {
     // const res = await fetch(
-    //   `https://api.openweathermap.org/data/2.5/onecall?lat=35&lon=35&appid=2e4a4f8c33bace5f7e079b47aed02a6c&units=metric`
+    //   `https://api.openweathermap.org/data/2.5/onecall?lat=37.766667&lon=-3.771111&appid=2e4a4f8c33bace5f7e079b47aed02a6c&units=metric`
     // );
     // const text = await res.json();
     const text = data;
@@ -16,42 +16,28 @@
   let promise = getCall();
 </script>
 
-<CurrentTemp {data} />
+{#await promise}
+  <p>loading data...</p>
+{:then data}
+  <div class="flex flex-col space-y-20 mx-auto">
+    <div class="">
+      <CurrentTemp {data} />
+    </div>
 
-<div class="day-section">
-  <div class="title-temp-hour">
-    Temperature per hour today, {new Date().toLocaleDateString("es-ES")}
+    <div class="">
+      <div class="text-left text-2xl">
+        Temperature per hour today, <b>
+          {new Date().toLocaleDateString("es-ES")}</b
+        >
+      </div>
+      <LineChart {data} />
+    </div>
+
+    <div class="bg-teal-900 p-5 rounded-lg">
+      <div class="text-left font-bold mb-3 text-2xl">
+        Forecast for next 5 days
+      </div>
+      <DailyForecast {data} />
+    </div>
   </div>
-  {#await promise}
-    <p>loading data...</p>
-  {:then data}
-    <LineChart {data} />
-  {/await}
-</div>
-
-<div class="week-section">
-  <div class="title-week-forecast">Forecast for next 5 days</div>
-  <DailyForecast {data} />
-</div>
-
-<style>
-  .title-temp-hour {
-    font-family: Inter;
-    font-weight: bold;
-    left: 100%;
-    text-align: left;
-  }
-  .title-week-forecast {
-    font-family: Inter;
-    font-weight: bold;
-    left: 100%;
-    text-align: left;
-    margin-bottom: 2em;
-  }
-  .day-section {
-    margin-top: 5rem;
-  }
-  .week-section {
-    margin-top: 5rem;
-  }
-</style>
+{/await}
