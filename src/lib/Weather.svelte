@@ -1,43 +1,66 @@
 <script>
   import CurrentTemp from "./CurrentTemp.svelte";
   import DailyForecast from "./DailyForecast.svelte";
-  import LineChart from "./LineChart.svelte";
-  import { data } from "./variables";
+  import HourlyForecastChart from "./HourlyForecastChart.svelte";
+  import { weatherData, geoData } from "./variables";
+  import { fade } from "svelte/transition";
 
-  async function getCall() {
-    // const res = await fetch(
-    //   `https://api.openweathermap.org/data/2.5/onecall?lat=37.766667&lon=-3.771111&appid=2e4a4f8c33bace5f7e079b47aed02a6c&units=metric`
-    // );
-    // const text = await res.json();
-    const text = data;
-    return text;
+  async function getGeocode(address) {
+    // const res = await fetch("https://geocode.maps.co/search?q=" + address);
+    // const gData = await res.json();
+    const gData = geoData;
+    return gData;
   }
 
-  let promise = getCall();
+  /**
+   * @param {string} address
+   */
+  async function getWeather(address) {
+    let gData = await getGeocode(address);
+    // console.log("GETTING geocode");
+    // console.log(gData.lat);
+    const res = await fetch(
+      "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+        gData.lat +
+        "&lon=" +
+        gData.lon +
+        "&appid=2e4a4f8c33bace5f7e079b47aed02a6c&units=metric"
+    );
+    const wData = await res.json();
+    // const wData = weatherData;
+    return wData;
+  }
+
+  let weatherPromise = getWeather("Jaen");
 </script>
 
-{#await promise}
+{#await weatherPromise}
   <p>loading data...</p>
 {:then data}
-  <div class="flex flex-col space-y-20 mx-auto">
+  <div
+    transition:fade={{ duration: 600 }}
+    class="flex flex-col space-y-20 mx-auto"
+  >
     <div class="">
       <CurrentTemp {data} />
     </div>
 
     <div class="">
-      <div class="text-left text-2xl">
+      <div class="text-left text-2xl mb-3">
         Temperature per hour today, <b>
           {new Date().toLocaleDateString("es-ES")}</b
         >
       </div>
-      <LineChart {data} />
+      <HourlyForecastChart {data} />
     </div>
 
     <div class="bg-teal-900 p-5 rounded-lg">
-      <div class="text-left font-bold mb-3 text-2xl">
+      <div class="text-left font-text font-bold mb-3 text-2xl">
         Forecast for next 5 days
       </div>
       <DailyForecast {data} />
     </div>
   </div>
+{:catch error}
+  <p>{error.message}</p>
 {/await}

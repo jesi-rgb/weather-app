@@ -31,7 +31,7 @@
     .domain(
       padExtent(
         hours.map((d) => d.temp),
-        1
+        5
       ).map((d) => Math.round(d))
     )
     .range([innerHeight, 0])
@@ -53,7 +53,7 @@
     return new Date(d.dt * 1000);
   }).left;
 
-  const xTicks = xScale.ticks();
+  const xTicks = xScale.ticks(6);
   const temps = xTicks.map((xt) => hours[bisect(hours, xt)].temp);
   const tickAndTemps = xTicks.map((tick, i) => [tick, temps[i]]);
 
@@ -106,6 +106,16 @@
       position="left"
     />
 
+    <path
+      transition:fade={{ duration: 600, delay: 800 }}
+      class="path-area"
+      id="area"
+      d={colorArea(hours)}
+    />
+    <path
+      transition:draw={{ duration: 1000, delay: 300 }}
+      d={pathLine(hours)}
+    />
     {#each tickAndTemps as tickAndTemp}
       <g transform={`translate(${xScale(tickAndTemp[0])}, 0)`} />
       <text
@@ -115,16 +125,17 @@
         dy="-10px"
         x={xScale(tickAndTemp[0])}
         y={yScale(tickAndTemp[1])}
+        transition:fade={{ duration: 600, delay: 800 }}
         >{Math.round(tickAndTemp[1]).toString() + "ºC"}</text
       >
+      <circle
+        cx={xScale(tickAndTemp[0])}
+        cy={yScale(tickAndTemp[1])}
+        r="4"
+        fill="#5eead4"
+        transition:fade={{ duration: 600, delay: 800 }}
+      />
     {/each}
-    <path
-      transition:fade={{ duration: 600, delay: 800 }}
-      class="path-area"
-      id="area"
-      d={colorArea(hours)}
-    />
-    <path transition:draw={{ duration: 1000 }} d={pathLine(hours)} />
   </g>
 </svg>
 

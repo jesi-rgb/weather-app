@@ -18,6 +18,7 @@
     "vite": "^3.0.7"
   },
   "dependencies": {
-    "d3": "^7.6.1"
+    "d3": "^7.6.1",
+    "svelte-weather-icons": "^1.1.1"
   }
 }
