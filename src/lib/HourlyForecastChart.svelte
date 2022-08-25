@@ -11,6 +11,7 @@
   import Axis from "./Axis.svelte";
 
   const hours = data.hourly;
+  const timeOffset = data.timezone_offset;
 
   const width = window.innerWidth - 100,
     height = 100;
@@ -24,7 +25,7 @@
   };
   // scales
   const xScale = scaleTime()
-    .domain(extent(hours.map((d) => new Date(d.dt * 1000))))
+    .domain(extent(hours.map((d) => new Date(d.dt * 1000 + timeOffset))))
     .range([0, innerWidth]);
 
   const yScale = scaleLinear()
@@ -39,18 +40,18 @@
 
   // the path generator
   const pathLine = line()
-    .x((d) => xScale(d.dt * 1000))
+    .x((d) => xScale(d.dt * 1000 + timeOffset))
     .y((d) => yScale(d.temp))
     .curve(curveBasis);
 
   const colorArea = area()
-    .x((d) => xScale(d.dt * 1000))
+    .x((d) => xScale(d.dt * 1000 + timeOffset))
     .y0(yScale(yScale.invert(innerHeight)))
     .y1((d) => yScale(d.temp))
     .curve(curveBasis);
 
   const bisect = bisector(function (d) {
-    return new Date(d.dt * 1000);
+    return new Date(d.dt * 1000 + timeOffset);
   }).left;
 
   const xTicks = xScale.ticks(6);

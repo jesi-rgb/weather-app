@@ -30,7 +30,7 @@
     }
 
     select(g).call(axis);
-    select(g).style("font-size", "14px");
+    select(g).style("font-size", "12px");
     select(g).style("font-family", "IBM Plex Mono");
     select(g).style("color", "rgb(132, 132, 132)");
     select(g).select("path").style("opacity", "0");
@@ -39,11 +39,3 @@
 </script>
 
 <g class="axis" bind:this={g} {transform} />
-
-<style>
-  text {
-    fill: rgb(172, 172, 172);
-    font-family: Inter;
-    font-size: 9px;
-  }
-</style>

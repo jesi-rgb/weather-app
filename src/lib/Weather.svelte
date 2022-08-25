@@ -27,8 +27,15 @@
     return wData;
   }
 
-  let cityName = "Jaén";
+  async function getStaticData() {
+    return weatherData;
+  }
+
+  let cityName = "Cádiz";
   let weatherPromise = getWeather(cityName);
+
+  //   let cityName = "Jaén";
+  //   let weatherPromise = getStaticData();
 </script>
 
 {#await weatherPromise}
