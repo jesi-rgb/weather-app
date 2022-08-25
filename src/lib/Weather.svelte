@@ -6,10 +6,9 @@
   import { fade } from "svelte/transition";
 
   async function getGeocode(address) {
-    // const res = await fetch("https://geocode.maps.co/search?q=" + address);
-    // const gData = await res.json();
-    const gData = geoData;
-    return gData;
+    const res = await fetch("https://geocode.maps.co/search?q=" + address);
+    const gData = await res.json();
+    return gData[0];
   }
 
   /**
@@ -17,8 +16,6 @@
    */
   async function getWeather(address) {
     let gData = await getGeocode(address);
-    // console.log("GETTING geocode");
-    // console.log(gData.lat);
     const res = await fetch(
       "https://api.openweathermap.org/data/2.5/onecall?lat=" +
         gData.lat +
@@ -27,11 +24,11 @@
         "&appid=2e4a4f8c33bace5f7e079b47aed02a6c&units=metric"
     );
     const wData = await res.json();
-    // const wData = weatherData;
     return wData;
   }
 
-  let weatherPromise = getWeather("Jaen");
+  let cityName = "Jaén";
+  let weatherPromise = getWeather(cityName);
 </script>
 
 {#await weatherPromise}
@@ -42,7 +39,7 @@
     class="flex flex-col space-y-20 mx-auto"
   >
     <div class="">
-      <CurrentTemp {data} />
+      <CurrentTemp {data} {cityName} />
     </div>
 
     <div class="">
