@@ -31,12 +31,23 @@
     return weatherData;
   }
 
-  let cityName = "Cádiz";
-  let weatherPromise = getWeather(cityName);
+  //   let cityName = "Cádiz";
+  //   let weatherPromise = getWeather(cityName);
 
-  //   let cityName = "Jaén";
-  //   let weatherPromise = getStaticData();
+  let cityName = "Jaén";
+  let weatherPromise = getStaticData();
+
+  //   let weatherPromise;
+  //   let cityName;
+  function webos(event) {
+    if (event.key === "Enter") {
+      cityName = document.getElementById("cityNameForm").value;
+      weatherPromise = getWeather(cityName);
+    }
+  }
 </script>
+
+<input type="text" id="cityNameForm" on:keydown={webos} />
 
 {#await weatherPromise}
   <p>loading data...</p>

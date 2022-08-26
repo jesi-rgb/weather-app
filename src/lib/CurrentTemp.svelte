@@ -1,4 +1,5 @@
 <script>
+  import { cityData } from "./store";
   export let data;
   export let cityName;
 
@@ -17,6 +18,7 @@
 
   // Finally tack on the prefix.
   icon = " " + prefix + icon;
+  console.log($cityData);
 </script>
 
 <div class="bg-teal-900 rounded-lg p-5 px-7">

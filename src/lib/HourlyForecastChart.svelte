@@ -73,7 +73,7 @@
       .data([
         { offset: "0%", color: "#5eead4" },
         // add additional steps as needed for gradient.
-        { offset: "65%", color: "transparent" },
+        { offset: "60%", color: "#24242400" },
       ])
       .enter()
       .append("stop")
